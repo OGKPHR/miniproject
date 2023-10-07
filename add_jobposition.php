@@ -1,10 +1,11 @@
 <?php
-require_once "connect.php"; // เชื่อมต่อฐานข้อมูล
+require_once "connect.php"; // Connect to the database
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if (isset($_POST['add_job'])) {
         $name = $_POST["name"];
-        $query = "INSERT INTO jobposition (JNAME) VALUES ('$name')";
+        $nextJID = getNextJID($conn); // Get the next available JID
+        $query = "INSERT INTO jobposition (JID, JNAME) VALUES ('$nextJID', '$name')";
         if (mysqli_query($conn, $query)) {
             header("Location: add_jobposition.php");
             exit;
@@ -19,7 +20,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             header("Location: add_jobposition.php");
             exit;
         } else {
-            echo "Error editing jobposition: " . mysqli_error($conn);
+            echo "Error editing job position: " . mysqli_error($conn);
         }
     } elseif (isset($_POST['delete_job'])) {
         $jid = $_POST['jid'];
@@ -28,9 +29,25 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             header("Location: add_jobposition.php");
             exit;
         } else {
-            echo "Error deleting jobposition: " . mysqli_error($conn);
+            echo "Error deleting job position: " . mysqli_error($conn);
         }
     }
+}
+
+// Function to get the next available JID
+function getNextJID($conn) {
+    $query = "SELECT MAX(CAST(SUBSTRING(JID, 2) AS UNSIGNED)) AS max_jid FROM jobposition";
+    $result = mysqli_query($conn, $query);
+    $row = mysqli_fetch_assoc($result);
+    $maxJID = (int)$row['max_jid'];
+
+    if ($maxJID < 99) {
+        $nextJID = 'J' . str_pad($maxJID + 1, 2, '0', STR_PAD_LEFT);
+    } else {
+        $nextJID = 'J99'; // Maximum JID reached
+    }
+
+    return $nextJID;
 }
 
 $query = "SELECT * FROM jobposition";
@@ -79,6 +96,7 @@ $result = mysqli_query($conn, $query);
         <table class="table mt-4">
             <thead>
                 <tr>
+                    <th>ID</th>
                     <th>Name</th>
                     <th>Edit</th>
                     <th>Delete</th>
@@ -87,6 +105,9 @@ $result = mysqli_query($conn, $query);
             <tbody>
                 <?php while ($row = mysqli_fetch_assoc($result)): ?>
                     <tr>
+                        <td>
+                            <?php echo $row['JID']; ?>
+                        </td>
                         <td>
                             <?php echo $row['JNAME']; ?>
                         </td>
