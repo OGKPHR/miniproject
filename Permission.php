@@ -1,5 +1,6 @@
 <?php
-require_once "connect.php"; // Connect to the database
+require_once "admin/connect.php"; // Connect to the database
+include 'navbar.php';
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if (isset($_POST['add_permission'])) {
@@ -126,6 +127,10 @@ $result = mysqli_query($conn, $query);
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 

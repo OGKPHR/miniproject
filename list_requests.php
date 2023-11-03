@@ -1,5 +1,6 @@
 <?php
-require_once "connect.php";
+
+require_once "admin/connect.php";
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if (isset($_POST['accept_request'])) {
         $request_id = $_POST['request_id'];
@@ -45,7 +46,7 @@ $result = mysqli_query($conn, $query);
     <!-- เพิ่ม jQuery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
-
+<?php include 'navbar.php';?>
 <body>
     <div class="container">
         <h2 class="mt-4">List Requests</h2>

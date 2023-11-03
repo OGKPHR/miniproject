@@ -1,17 +1,38 @@
 <?php
-require_once "connect.php";
+require_once "admin/connect.php";
+
+// Function to get the next unique RID
+function getNextUniqueRID($conn) {
+    $existing_rids = array();
+    $query = "SELECT RID FROM request";
+    $result = mysqli_query($conn, $query);
+
+    while ($row = mysqli_fetch_assoc($result)) {
+        $existing_rids[] = $row['RID'];
+    }
+
+    $nextRID = 1;
+
+    while (in_array($nextRID, $existing_rids)) {
+        $nextRID++;
+    }
+
+    return str_pad($nextRID, 6, '0', STR_PAD_LEFT);
+}
 
 if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['submit_request'])) {
     $department = $_POST['department'];
     $jobposition = $_POST['jobposition'];
     $quantity = $_POST['quantity'];
 
-    // เพิ่มข้อมูลการร้องขอตำแหน่งงานลงในตาราง request
-    $request_query = "INSERT INTO request (DEPTREQUEST, JOBREQUEST, STATUS_ID) VALUES ('$department', '$jobposition', '3')";
-    if (mysqli_query($conn, $request_query)) {
-        $request_id = mysqli_insert_id($conn); // รับค่า ID ของ request ที่เพิ่มล่าสุด
+    // Get the next unique RID
+    $request_id = getNextUniqueRID($conn);
 
-        // เพิ่มข้อมูล skill ที่ถูกเลือกลงในตาราง request_skill
+    // Insert the request with the generated RID
+    $request_query = "INSERT INTO request (RID, DEPTREQUEST, JOBREQUEST, STATUS_ID) VALUES ('$request_id', '$department', '$jobposition', '3')";
+
+    if (mysqli_query($conn, $request_query)) {
+        // Add selected skills to the request_skill table
         if (isset($_POST['skills']) && is_array($_POST['skills'])) {
             foreach ($_POST['skills'] as $skill_id) {
                 $request_skill_query = "INSERT INTO request_skill (SKILL_ID, REQUEST_ID) VALUES ('$skill_id', '$request_id')";
@@ -19,7 +40,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['submit_request'])) {
             }
         }
 
-        // รับค่าจำนวณคนที่จะรับและเพิ่มลงในตาราง request
+        // Update the quantity of people to be hired in the request table
         $quantity_query = "UPDATE request SET QUANTITY = '$quantity' WHERE RID = '$request_id'";
         mysqli_query($conn, $quantity_query);
 
@@ -29,8 +50,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['submit_request'])) {
         die("Error: " . mysqli_error($conn));
     }
 }
-
 ?>
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 

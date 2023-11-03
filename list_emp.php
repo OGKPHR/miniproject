@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once "connect.php";
+require_once "admin/connect.php";
 $query = "SELECT * FROM employee";
 $result = mysqli_query($conn, $query);
 if (isset($_POST['delete_employee'])) {
@@ -34,6 +34,7 @@ if (isset($_POST['delete_employee'])) {
             <table class="table table-bordered">
                 <thead>
                     <tr>
+                    <th>EMPID</th>
                         <th>First Name</th>
                         <th>Last Name</th>
                         <th>Phone Number</th>
@@ -54,6 +55,9 @@ if (isset($_POST['delete_employee'])) {
                 <tbody>
                     <?php while ($row = mysqli_fetch_assoc($result)): ?>
                         <tr>
+                        <td>
+                                <?php echo $row['EMPID']; ?>
+                            </td>
                             <td>
                                 <?php echo $row['FNAME']; ?>
                             </td>

@@ -1,5 +1,5 @@
 <?php
-require_once "connect.php";
+require_once "admin/connect.php";
 $query = "SELECT r.RID, d.DNAME, j.JNAME, r.QUANTITY, GROUP_CONCAT(s.SKILLNAME) AS SKILLS
           FROM request r
           JOIN department d ON r.DEPTREQUEST = d.DID
@@ -12,14 +12,16 @@ $query = "SELECT r.RID, d.DNAME, j.JNAME, r.QUANTITY, GROUP_CONCAT(s.SKILLNAME) 
 $result = mysqli_query($conn, $query);
 ?>
 
+<?php include 'navbar.php';?>
+
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Job Openings</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"> -->
+
     <style>
         .job-listing {
             border: 1px solid #ccc;
