@@ -1,4 +1,6 @@
+<?php session_start(); ?>
 <?php
+include("../navbar.php");
 require_once "connect.php"; // เชื่อมต่อฐานข้อมูล
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
@@ -79,7 +81,7 @@ $result = mysqli_query($conn, $query);
 
         <table class="table mt-4">
             <thead>
-                <tr>
+                <tr><th>DID</th>
                     <th>Name</th>
                     <th>Edit</th>
                     <th>Delete</th>
@@ -87,7 +89,9 @@ $result = mysqli_query($conn, $query);
             </thead>
             <tbody>
                 <?php while ($row = mysqli_fetch_assoc($result)): ?>
-                    <tr>
+                    <tr><td>
+                            <?php echo $row['DID']; ?>
+                        </td>
                         <td>
                             <?php echo $row['DNAME']; ?>
                         </td>
@@ -106,7 +110,6 @@ $result = mysqli_query($conn, $query);
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 
 </html>

@@ -1,3 +1,4 @@
+<?php session_start(); ?>
 <?php
 include_once('connect.php');
 
@@ -52,7 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // Redirect back to the page after updating permissions
-    header("Location: rootuser.php");
+    header("Location: PermissionManage.php");
     exit();
 }
 ?>

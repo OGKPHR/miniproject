@@ -1,4 +1,8 @@
+<?php session_start(); ?>
+
 <?php
+include("navbar.php");
+
 require_once "admin/connect.php";
 $query = "SELECT r.RID, d.DNAME, j.JNAME, r.QUANTITY, GROUP_CONCAT(s.SKILLNAME) AS SKILLS
           FROM request r
@@ -10,9 +14,10 @@ $query = "SELECT r.RID, d.DNAME, j.JNAME, r.QUANTITY, GROUP_CONCAT(s.SKILLNAME) 
           GROUP BY r.RID, d.DNAME, j.JNAME, r.QUANTITY";
 
 $result = mysqli_query($conn, $query);
+
 ?>
 
-<?php include 'navbar.php';?>
+<?php //include 'navbar.php';?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -47,7 +52,9 @@ $result = mysqli_query($conn, $query);
 
 <body>
     <div class="container mt-4">
+        
         <h2>Job Openings</h2>
+     <?php echo $_SESSION["job_id"];?>   
         <?php while ($row = mysqli_fetch_assoc($result)): ?>
             <div class="job-listing">
                 <div class="job-title">

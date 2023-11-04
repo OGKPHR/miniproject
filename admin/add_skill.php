@@ -1,4 +1,6 @@
+<?php session_start(); ?>
 <?php
+include("navbar.php");
 require_once "connect.php"; // Connect to the database
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
@@ -53,11 +55,6 @@ function getNextSKILLID($conn) {
 $query = "SELECT * FROM skill";
 $result = mysqli_query($conn, $query);
 ?>
-
-
-
-
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -128,7 +125,7 @@ $result = mysqli_query($conn, $query);
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script> -->
 </body>
 
 </html>

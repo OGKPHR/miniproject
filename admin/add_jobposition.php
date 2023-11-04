@@ -1,3 +1,4 @@
+<?php session_start(); ?>
 <?php
 require_once "connect.php"; // เชื่อมต่อฐานข้อมูล
 

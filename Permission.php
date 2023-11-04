@@ -1,3 +1,4 @@
+<?php session_start(); ?>
 <?php
 require_once "admin/connect.php"; // Connect to the database
 include 'navbar.php';

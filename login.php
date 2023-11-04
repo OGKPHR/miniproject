@@ -1,71 +1,82 @@
-<?php
-session_start();
+<?php session_start();
+include("navbar.php");
 
-if (isset($_SESSION['user_id'])) {
-    header("Location: index.php"); // Redirect if the user is already logged in
-    exit();
-}
+// Connect to the database
+require 'admin/connect.php';
 
-// Include a database connection file to interact with your database
-include('admin/connect.php'); // Replace with the actual database connection file.
-
+// Check if the form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Get the submitted username and password
+    // Retrieve username and password from form data
     $username = $_POST['username'];
-    $providedPassword = $_POST['password'];
+    $password = $_POST['password'];
 
-    // Retrieve the hashed password from the database based on the username
-    $query = "SELECT * FROM employee WHERE USERNAME = '$username'";
-    $result = mysqli_query($conn, $query);
+    // Prepare SQL to prevent SQL injection
+    $stmt = $conn->prepare("SELECT * FROM employee WHERE username = ?");
+    $stmt->bind_param("s", $username);
+    
+    // Execute the statement
+    $stmt->execute();
+    
+    // Store the result so we can check if the account exists in the database.
+    $result = $stmt->get_result();
 
-    if ($row = mysqli_fetch_assoc($result)) {
-        $storedPassword = $row['USERPASS'];
+    if ($result->num_rows > 0) {
+        // Account exists, now we verify the password.
+        // Note: remember to use password_hash in your registration file to store hashed passwords.
+        $user = $result->fetch_assoc();
 
-        // Verify the provided password against the stored hashed password
-        if (password_verify($providedPassword, $storedPassword)) {
-            // Authentication successful
-            $_SESSION['user_id'] = $row['EMPID'];
-            header("Location: index.php"); // Replace 'dashboard.php' with the actual page to redirect to upon successful login.
+        // Verify user password and set $_SESSION
+        if (password_verify($password, $user['USERPASS'])) {
+           
+            // Password is correct, so start a new session
+            $_SESSION['user_id'] = $user['EMPID'];
+            $_SESSION['job_id'] =   $user['JOBPOSITION'];
+            $_SESSION['time'] = time();
+            var_dump($_SESSION);
+
+            // Redirect to user dashboard page
+            header("location: index.php");
             exit();
         } else {
-            // Authentication failed
-            $login_error = "Invalid username or password";
+            // Password is not valid, display a generic error message
+            $error = 'Invalid password.';
         }
     } else {
-        // Username not found
-        $login_error = "Invalid username or password";
+        // Username doesn't exist, display a generic error message
+        $error = 'Invalid username.';
     }
+    
+    // TODO: notify user error;
+    echo "<script type='text/javascript'>alert('$error');</script>";
+    
+    $stmt->close();
 }
 
-// Close the database connection
-mysqli_close($conn);
+// Close connection
+$conn->close();
+
+
 ?>
 
-
-<?php include('navbar.php');?>
-
-<?php var_dump($_SESSION);?>
 <!DOCTYPE html>
 <html lang="en">
-<head></head>
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
           rel="stylesheet"
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
           crossorigin="anonymous"
     />
-    <script
-            src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
             crossorigin="anonymous"
     ></script>
-    <script
-            src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
             integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"
             crossorigin="anonymous"
     ></script>
-    <meta charset="UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Document</title>
+    <title>Login Page</title>
 </head>
 <body>
 <section class="vh-100" style="background-color: #9a616d">
@@ -84,7 +95,7 @@ mysqli_close($conn);
                         </div>
                         <div class="col-md-6 col-lg-7 d-flex align-items-center">
                             <div class="card-body p-4 p-lg-5 text-black">
-                                <form action="process_login.php" method="POST">
+                                <form action="login.php" method="POST">
                                     <div class="d-flex align-items-center mb-3 pb-1">
                                         <i
                                                 class="fas fa-cubes fa-2x me-3"
@@ -102,15 +113,15 @@ mysqli_close($conn);
 
                                     <!-- Username input -->
                                     <div class="form-floating mb-3">
-                                        <input
-                                                type="text"
-                                                class="form-control"
-                                                id="floatingInput"
-                                                name="username"
-                                                placeholder="Username"
-                                        />
-                                        <label for="floatingInput">Username</label>
-                                    </div>
+                                    <input
+                                        type="text"
+                                        class="form-control"
+                                        id="floatingInput"
+                                        name="username"
+                                        placeholder="Username"
+                                    />
+                                    <label for="floatingInput">Username</label>
+                                </div>
 
                                     <!-- Password input -->
                                     <div class="form-floating mt-3 mb-3">
@@ -136,7 +147,7 @@ mysqli_close($conn);
                                     <a class="small text-muted" href="#!">Forgot password?</a>
                                     <p class="mb-5 pb-lg-2" style="color: #393f81;">
                                         Don't have an account?
-                                        <a href="register.html"
+                                        <a href="registerform.php"
                                            style="color: #393f81; text-decoration: underline;"
                                         >Register here</a>
                                     </p>

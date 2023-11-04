@@ -1,3 +1,51 @@
+<?php
+
+require 'admin/connect.php';
+// Check if the logout action has been requested
+$userID = $_SESSION['user_id'];
+if (isset($_GET['action']) && $_GET['action'] == 'logout') {
+    require_once('logout.php');
+    header('Location: index.php'); // Redirect to the index page
+    exit(); // Stop further script execution after a redirect
+}
+?>
+
+<?php
+// if(!isset($_SESSION["user_id"])){
+//     return;
+// }
+
+// $query_permission_list = $conn->prepare("SELECT permis_id FROM access_permission WHERE JOB_ID = ?");
+// $job_id = "J02";
+// $query_permission_list->bind_param("s", $job_id);
+
+// $query_permission_list->execute();
+
+// $result = $query_permission_list->get_result();
+
+// if($result->num_rows <= 0) {
+//     //TODO: check no permission?
+//     exit();
+// }
+
+// while($page = $result->fetch_assoc()) {
+//     echo "<br>";
+//     $query_permission_page = $conn->prepare("SELECT filename FROM permission WHERE PID = ?");
+//     $pid = $page["permis_id"];
+//     $query_permission_page->bind_param("s", $pid);
+
+//     $query_permission_page->execute();
+
+//     $result_page = $query_permission_page->get_result();
+
+//     if($result_page->num_rows <= 0) {
+//         continue;
+//     }
+
+//     $a = $result_page->fetch_assoc()["filename"];
+//     var_dump($a);
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,7 +57,7 @@
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
         <!-- Container wrapper -->
-        <div class="container-fluid">
+        <div class="container-fluid ">
             <!-- Toggle button -->
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -17,7 +65,7 @@
             </button>
 
             <!-- Collapsible wrapper -->
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <div class="collapse navbar-collapse" id="navbarSupportedContent"></div>
                 <!-- Navbar brand -->
                 <a class="navbar-brand mt-2 mt-lg-0" href="/mini/ ">
                     <img
@@ -34,23 +82,23 @@
                         <a class="nav-link" href="/mini/">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="permission.php">Permission</a>
+                        <a class="nav-link" href="/mini/permission.php">Permission</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Projects</a>
-                    </li>
+
                 </ul>
                 <!-- Left links -->
             </div>
             <!-- Collapsible wrapper -->
-
             <!-- Right elements -->
+            <Your class="text-light">Your user ID is: <?php echo htmlspecialchars($userID); ?></Your>
             <div class="d-flex align-items-center">
+
                 <?php
                 if (isset($_SESSION['user_id'])) {
                     // User is logged in
                 ?>
-                <div class="dropdown">
+                
+                <div class="dropdown"></div>
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuAvatar" role="button"
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <img src="https://www.asirox.com/wp-content/uploads/2022/07/pngtree-user-vector-avatar-png-image_1541962.jpeg"
@@ -58,16 +106,53 @@
                             style="background-color: aliceblue" />
                     </a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuAvatar">
-                        <a class="dropdown-item" href="#">My profile</a>
-                        <a class="dropdown-item" href="#">Settings</a>
-                        <a class="dropdown-item" href="#">Logout</a>
+                        <?php 
+                            $query_permission_list = $conn->prepare("SELECT permis_id FROM access_permission WHERE JOB_ID = ?");
+                            $query_permission_list->bind_param("s", $_SESSION["job_id"]);
+
+                            $query_permission_list->execute();
+
+                            $result = $query_permission_list->get_result();
+
+                            // if($result->num_rows <= 0) {
+                            //     //TODO: check no permission?
+                            //     exit();
+                            // }
+
+                            while($page = $result->fetch_assoc()) {
+                                $query_permission_page = $conn->prepare("SELECT pname, filename FROM permission WHERE PID = ?");
+                                $pid = $page["permis_id"];
+                                $query_permission_page->bind_param("s", $pid);
+
+                                $query_permission_page->execute();
+
+                                $result_page = $query_permission_page->get_result();
+
+                                if($result_page->num_rows <= 0) {
+                                    continue;
+                                }
+
+                                $a = $result_page->fetch_assoc();
+                                $page_url = $a["filename"];
+                                $page_name = $a["pname"];
+                                ?>
+                                <a class="dropdown-item" href="<?php echo $page_url; ?>"><?php echo $page_name ?></a>
+
+                                <?php
+                            }
+                        ?>
+
+                        <!-- <a class="dropdown-item" href="/mini/admin/add_employee.php">Add Employee</a> -->
+                        <a class="dropdown-item" href="logout.php">Logout </a>
                     </div>
                 </div>
                 <?php
                 } else {
                     // User is not logged in
                 ?>
-                <a id="loginLink" href="/mini/login.php" class="text-light">Login</a>
+                <a id="login" href="/mini/login.php" class="text-light">Login</a>
+<!-- 
+                <button class="btn btn-success" href="/mini/logout.php" >Logout</button> -->
                 <?php
                 }
                 ?>

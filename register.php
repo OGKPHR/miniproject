@@ -1,4 +1,6 @@
+<?php session_start(); ?>
 <?php
+
 require 'admin/connect.php'; // Ensure this path is correct
 // Function to generate a unique EMPID
 function generateUniqueEmployeeID($conn) {
@@ -42,10 +44,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt->bind_param("sssssssssssss",$empid, $first_name, $last_name, $telephone, $gender, $date_of_birth, $house_number, $village_number, $subdistrict, $district, $province, $username, $password);
 
     // Execute the prepared statement
-    if ($stmt->execute()) {
-        
-        echo "New record created successfully";
-        
+    if ($stmt->execute()) {        
+        header("Location: login.php");
     } else {
         echo "Error: " . $stmt->error;
     }

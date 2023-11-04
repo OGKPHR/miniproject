@@ -1,6 +1,6 @@
+<?php session_start(); ?>
 <?php
-session_start();
-require_once "connect.php";
+require_once "admin/connect.php";
 $jobposition = "SELECT * FROM jobposition";
 $jobpositionResult = mysqli_query($conn, $jobposition);
 $jobpositionOptions = mysqli_fetch_all($jobpositionResult, MYSQLI_ASSOC);

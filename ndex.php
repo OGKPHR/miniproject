@@ -1,3 +1,4 @@
+<?php session_start(); ?>
 <?php
 require_once "connect.php";
 $query = "SELECT r.RID, d.DNAME, j.JNAME, r.QUANTITY, GROUP_CONCAT(s.SKILLNAME) AS SKILLS
