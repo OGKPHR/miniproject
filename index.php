@@ -54,7 +54,7 @@ $result = mysqli_query($conn, $query);
     <div class="container mt-4">
         
         <h2>Job Openings</h2>
-     <?php echo $_SESSION["job_id"];?>   
+      
         <?php while ($row = mysqli_fetch_assoc($result)): ?>
             <div class="job-listing">
                 <div class="job-title">

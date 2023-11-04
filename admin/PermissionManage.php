@@ -1,7 +1,9 @@
 <?php session_start(); ?>
+<?php include_once(dirname(__DIR__).'/util/check_access_permission.php'); check_access_permission(basename($_SERVER['SCRIPT_FILENAME'])) ?>
+
 <?php
 include_once('connect.php');
-
+include('../navbar.php');
 // Fetch a list of job positions and permissions from the database
 $jobPositionsQuery = $conn->query("SELECT * FROM jobposition");
 $permissionsQuery = $conn->query("SELECT * FROM permission");
@@ -183,6 +185,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     <!-- Include Bootstrap JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

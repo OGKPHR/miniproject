@@ -14,7 +14,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         }
     } elseif (isset($_POST['reject_request'])) {
         $request_id = $_POST['request_id'];
-        $update_query = "UPDATE request SET STATUS_ID = '1' WHERE RID = '$request_id'";
+        $update_query = "UPDATE request SET STATUS_ID = '3' WHERE RID = '$request_id'";
 
         if (mysqli_query($conn, $update_query)) {
             header("Location: list_requests.php");

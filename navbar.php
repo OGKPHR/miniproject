@@ -2,48 +2,13 @@
 
 require 'admin/connect.php';
 // Check if the logout action has been requested
-$userID = $_SESSION['user_id'];
+if (isset($_SESSION['user_id'])) {
+$username = $_SESSION['username'];}
 if (isset($_GET['action']) && $_GET['action'] == 'logout') {
     require_once('logout.php');
     header('Location: index.php'); // Redirect to the index page
     exit(); // Stop further script execution after a redirect
 }
-?>
-
-<?php
-// if(!isset($_SESSION["user_id"])){
-//     return;
-// }
-
-// $query_permission_list = $conn->prepare("SELECT permis_id FROM access_permission WHERE JOB_ID = ?");
-// $job_id = "J02";
-// $query_permission_list->bind_param("s", $job_id);
-
-// $query_permission_list->execute();
-
-// $result = $query_permission_list->get_result();
-
-// if($result->num_rows <= 0) {
-//     //TODO: check no permission?
-//     exit();
-// }
-
-// while($page = $result->fetch_assoc()) {
-//     echo "<br>";
-//     $query_permission_page = $conn->prepare("SELECT filename FROM permission WHERE PID = ?");
-//     $pid = $page["permis_id"];
-//     $query_permission_page->bind_param("s", $pid);
-
-//     $query_permission_page->execute();
-
-//     $result_page = $query_permission_page->get_result();
-
-//     if($result_page->num_rows <= 0) {
-//         continue;
-//     }
-
-//     $a = $result_page->fetch_assoc()["filename"];
-//     var_dump($a);
 ?>
 
 <!DOCTYPE html>
@@ -63,10 +28,8 @@ if (isset($_GET['action']) && $_GET['action'] == 'logout') {
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-
             <!-- Collapsible wrapper -->
-            <div class="collapse navbar-collapse" id="navbarSupportedContent"></div>
-                <!-- Navbar brand -->
+            <div class="collapse navbar-collapse" id="navbarSupportedContent"> 
                 <a class="navbar-brand mt-2 mt-lg-0" href="/mini/ ">
                     <img
                         src="https://e7.pngegg.com/pngimages/70/751/png-clipart-logo-graphic-design-m-letter-angle-text.png"
@@ -76,21 +39,18 @@ if (isset($_GET['action']) && $_GET['action'] == 'logout') {
                         class="rounded-circle"
                     />
                 </a>
-                <!-- Left links -->
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link" href="/mini/">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/mini/permission.php">Permission</a>
-                    </li>
-
-                </ul>
-                <!-- Left links -->
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" href="/mini/">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/mini/admin/add_permission.php">Permission</a>
+                </li>
+            </ul>
             </div>
-            <!-- Collapsible wrapper -->
             <!-- Right elements -->
-            <Your class="text-light">Your user ID is: <?php echo htmlspecialchars($userID); ?></Your>
+            
+
             <div class="d-flex align-items-center">
 
                 <?php
@@ -99,6 +59,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'logout') {
                 ?>
                 
                 <div class="dropdown"></div>
+                <Your class="text-light">NAME : <?php echo htmlspecialchars($username); ?></Your>
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuAvatar" role="button"
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <img src="https://www.asirox.com/wp-content/uploads/2022/07/pngtree-user-vector-avatar-png-image_1541962.jpeg"
@@ -143,7 +104,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'logout') {
                         ?>
 
                         <!-- <a class="dropdown-item" href="/mini/admin/add_employee.php">Add Employee</a> -->
-                        <a class="dropdown-item" href="logout.php">Logout </a>
+                        <a class="dropdown-item" href="/mini/logout.php">Logout </a>
                     </div>
                 </div>
                 <?php

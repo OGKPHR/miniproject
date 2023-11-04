@@ -30,6 +30,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
            
             // Password is correct, so start a new session
             $_SESSION['user_id'] = $user['EMPID'];
+            $_SESSION['username'] = $user['USERNAME'];
             $_SESSION['job_id'] =   $user['JOBPOSITION'];
             $_SESSION['time'] = time();
             var_dump($_SESSION);

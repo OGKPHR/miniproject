@@ -1,0 +1,24 @@
+body {
+  padding-top: 0px;
+  background: #f8f9fa;
+}
+.table-responsive {
+  margin: auto;
+  padding: 20px;
+  background: #fff;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  overflow-x: auto; /* Ensures that the table is scrollable on small screens */
+}
+.table {
+  width: 100%; /* Ensures that the table is not wider than its container */
+  margin-bottom: 1rem;
+  color: #212529;
+}
+.no-scrollbar {
+  scrollbar-width: none; /* For Firefox */
+  -ms-overflow-style: none; /* For Internet Explorer and Edge */
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none; /* For Chrome, Safari, and Opera */
+}
