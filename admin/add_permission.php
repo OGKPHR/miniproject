@@ -1,8 +1,9 @@
 <?php session_start(); ?>
-<?php include_once(dirname(__DIR__).'/util/check_access_permission.php'); check_access_permission(basename($_SERVER['SCRIPT_FILENAME'])) ?>
+<?php include_once(dirname(__DIR__) . '/util/check_access_permission.php');
+check_access_permission(basename($_SERVER['SCRIPT_FILENAME'])) ?>
 <?php
-include(dirname(__DIR__).'/admin/connect.php');
-include(dirname(__DIR__).'/navbar.php');
+include(dirname(__DIR__) . '/admin/connect.php');
+// include(dirname(__DIR__) . '/navbar.php');
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if (isset($_POST['add_permission'])) {
@@ -38,8 +39,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
 }
 
+include('../navbar.php');
+
 $query = "SELECT * FROM PERMISSION";
 $result = mysqli_query($conn, $query);
+
 ?>
 
 <!DOCTYPE html>
@@ -113,8 +117,7 @@ $result = mysqli_query($conn, $query);
                             <?php echo $row['FILENAME']; ?>
                         </td>
                         <td>
-                            <a href="add_permission.php?edit_id=<?php echo $row['PID']; ?>"
-                                class="btn btn-warning">Edit</a>
+                            <a href="add_permission.php?edit_id=<?php echo $row['PID']; ?>" class="btn btn-warning">Edit</a>
                         </td>
                         <td>
                             <form method="POST">
@@ -130,7 +133,7 @@ $result = mysqli_query($conn, $query);
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-        <!-- Scripts -->
+    <!-- Scripts -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

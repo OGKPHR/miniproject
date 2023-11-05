@@ -1,8 +1,9 @@
 <?php
 session_start();
-include_once(dirname(__DIR__).'/util/check_access_permission.php'); check_access_permission(basename($_SERVER['SCRIPT_FILENAME']));
-include_once('connect.php');
-include('../navbar.php');
+include_once(dirname(__DIR__) . '/util/check_access_permission.php');
+check_access_permission(basename($_SERVER['SCRIPT_FILENAME']));
+
+include('connect.php');
 // Fetch a list of job positions and permissions from the database
 $jobPositionsQuery = $conn->query("SELECT * FROM jobposition");
 $permissionsQuery = $conn->query("SELECT * FROM permission");
@@ -57,10 +58,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     header("Location: PermissionManage.php");
     exit();
 }
+include('../navbar.php');
 ?>
 
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>Manage Employee Permissions</title>
     <!-- Include Bootstrap CSS -->
@@ -85,7 +88,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             border-collapse: collapse;
         }
 
-        th, td {
+        th,
+        td {
             padding: 10px;
             text-align: center;
             border: 1px solid #ddd;
@@ -118,24 +122,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     </style>
 </head>
+
 <body>
     <h1>Manage Permissions for Employees by Job Position</h1>
-    
+
     <form method="post">
         <table class="table table-striped">
             <thead class="thead-dark">
                 <tr>
                     <th>Job Position</th>
-                    <?php foreach ($permissions as $permission) : ?>
-                        <th><?= $permission['PNAME'] ?></th>
+                    <?php foreach ($permissions as $permission): ?>
+                        <th>
+                            <?= $permission['PNAME'] ?>
+                        </th>
                     <?php endforeach; ?>
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($jobPositions as $jobPosition) : ?>
+                <?php foreach ($jobPositions as $jobPosition): ?>
                     <tr>
-                        <td><?= $jobPosition['JNAME'] ?></td>
-                        <?php foreach ($permissions as $permission) : ?>
+                        <td>
+                            <?= $jobPosition['JNAME'] ?>
+                        </td>
+                        <?php foreach ($permissions as $permission): ?>
                             <td>
                                 <?php
                                 // Build the checkbox name
@@ -151,9 +160,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <?php endforeach; ?>
             </tbody>
         </table>
-       
+
         <button type="submit" class="btn btn-primary">Save Permissions</button>
-       
+
     </form>
 
     <!-- Table to display how many pages each job position can access -->
@@ -185,4 +194,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <!-- Include Bootstrap JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </body>
+
 </html>

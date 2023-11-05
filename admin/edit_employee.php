@@ -1,7 +1,8 @@
 <?php
 session_start();
-include_once(dirname(__DIR__).'/util/check_access_permission.php'); check_access_permission(basename($_SERVER['SCRIPT_FILENAME']));
-include(dirname(__DIR__).'/navbar.php');
+include_once(dirname(__DIR__) . '/util/check_access_permission.php');
+check_access_permission(basename($_SERVER['SCRIPT_FILENAME']));
+include(dirname(__DIR__) . '/navbar.php');
 // include_once(dirname(__DIR__).'/util/check_access_permission.php'); check_access_permission(basename($_SERVER['SCRIPT_FILENAME']));
 require_once "connect.php";
 
@@ -68,7 +69,9 @@ if (isset($_POST['update_employee'])) {
 mysqli_close($conn);
 ?>
 <!DOCTYPE html>
-<html lang="en"></html>
+<html lang="en">
+
+</html>
 
 <head>
     <meta charset="UTF-8">
@@ -81,16 +84,19 @@ mysqli_close($conn);
     <div class="container mt-5">
         <h2>Edit Employee</h2>
         <!-- <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST" onsubmit="return confirm('Are you sure you want to update this employee?');"> -->
-        <form action="./edit_employee.php" method="POST" onsubmit="return confirm('Are you sure you want to update this employee?');">
+        <form action="./edit_employee.php" method="POST"
+            onsubmit="return confirm('Are you sure you want to update this employee?');">
             <input type="hidden" name="empid" value="<?php echo $row['EMPID']; ?>">
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label for="fname">First Name:</label>
-                    <input type="text" class="form-control" id="fname" name="fname" value="<?php echo $row['FNAME']; ?>" required>
+                    <input type="text" class="form-control" id="fname" name="fname" value="<?php echo $row['FNAME']; ?>"
+                        required>
                 </div>
                 <div class="form-group col-md-6">
                     <label for="lname">Last Name:</label>
-                    <input type="text" class="form-control" id="lname" name="lname" value="<?php echo $row['LNAME']; ?>" required>
+                    <input type="text" class="form-control" id="lname" name="lname" value="<?php echo $row['LNAME']; ?>"
+                        required>
                 </div>
             </div>
 
@@ -197,7 +203,7 @@ mysqli_close($conn);
 
                 <div class="form-group col-md-6">
                     <label for="userpass">Password:</label>
-                    <input type="password" class="form-control" id="userpass" name="userpass">  
+                    <input type="password" class="form-control" id="userpass" name="userpass" required>
                     <!-- TODO: should we required password input? -->
                 </div>
 
@@ -213,4 +219,5 @@ mysqli_close($conn);
         </div>
     <?php endif; ?>
 </body>
+
 </html>
