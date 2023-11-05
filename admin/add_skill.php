@@ -1,4 +1,5 @@
 <?php session_start(); ?>
+<?php include_once(dirname(__DIR__).'/util/check_access_permission.php'); check_access_permission(basename($_SERVER['SCRIPT_FILENAME'])) ?>
 <?php
 include(dirname(__DIR__).'/navbar.php');
 require_once "connect.php"; // Connect to the database

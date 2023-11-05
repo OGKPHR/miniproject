@@ -1,7 +1,6 @@
-<?php session_start(); ?>
-<?php include_once(dirname(__DIR__).'/util/check_access_permission.php'); check_access_permission(basename($_SERVER['SCRIPT_FILENAME'])) ?>
-
 <?php
+session_start();
+include_once(dirname(__DIR__).'/util/check_access_permission.php'); check_access_permission(basename($_SERVER['SCRIPT_FILENAME']));
 include_once('connect.php');
 include('../navbar.php');
 // Fetch a list of job positions and permissions from the database

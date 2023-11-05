@@ -1,5 +1,6 @@
 <?php
 session_start();
+include_once(dirname(__DIR__).'/util/check_access_permission.php'); check_access_permission(basename($_SERVER['SCRIPT_FILENAME']));
 include(dirname(__DIR__).'/navbar.php');
 // include_once(dirname(__DIR__).'/util/check_access_permission.php'); check_access_permission(basename($_SERVER['SCRIPT_FILENAME']));
 require_once "connect.php";

@@ -1,5 +1,5 @@
 <?php session_start(); ?>
-
+<?php include_once(dirname(__DIR__).'/mini/util/check_access_permission.php'); check_access_permission(basename($_SERVER['SCRIPT_FILENAME'])) ?>
 <?php
 include('admin/connect.php');
 include('navbar.php');
