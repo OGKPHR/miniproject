@@ -1,7 +1,7 @@
+<?php session_start(); ?>
 <?php
-inclu
-echo "juan";
-include(dirname(__DIR__).'/mini/navbar.php');
+include(dirname(__DIR__).'/admin/connect.php');
+include(dirname(__DIR__).'/navbar.php');
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if (isset($_POST['add_permission'])) {

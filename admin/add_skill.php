@@ -1,6 +1,6 @@
 <?php session_start(); ?>
 <?php
-include("navbar.php");
+include(dirname(__DIR__).'/navbar.php');
 require_once "connect.php"; // Connect to the database
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {

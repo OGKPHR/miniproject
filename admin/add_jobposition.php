@@ -1,11 +1,13 @@
 <?php session_start(); ?>
 <?php
+include(dirname(__DIR__).'/navbar.php');
 require_once "connect.php"; // เชื่อมต่อฐานข้อมูล
+include_once(dirname(__DIR__)."/util/functions.php");
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if (isset($_POST['add_job'])) {
         $name = $_POST["name"];
-        $query = "INSERT INTO jobposition (JNAME) VALUES ('$name')";
+        $query = "INSERT INTO jobposition (JID, JNAME) VALUES ('". genJobPositionID() ."', '$name')";
         if (mysqli_query($conn, $query)) {
             header("Location: add_jobposition.php");
             exit;
@@ -106,7 +108,6 @@ $result = mysqli_query($conn, $query);
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 
 </html>

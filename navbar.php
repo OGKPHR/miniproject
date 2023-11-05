@@ -43,9 +43,6 @@ if (isset($_GET['action']) && $_GET['action'] == 'logout') {
                 <li class="nav-item">
                     <a class="nav-link" href="/mini/">Home</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/mini/admin/add_permission.php">Permission</a>
-                </li>
             </ul>
             </div>
             <!-- Right elements -->

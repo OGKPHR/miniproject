@@ -2,11 +2,13 @@
 <?php
 include("../navbar.php");
 require_once "connect.php"; // เชื่อมต่อฐานข้อมูล
+include_once(dirname(__DIR__)."/util/functions.php");
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if (isset($_POST['add_department'])) {
         $name = $_POST["name"];
-        $query = "INSERT INTO department (DNAME) VALUES ('$name')";
+        $query = "INSERT INTO department (DID, DNAME) VALUES ('". genDepartmentID() ."', '$name')";
+        echo $query;
         if (mysqli_query($conn, $query)) {
             header("Location: add_department.php");
             exit;

@@ -1,7 +1,7 @@
 <?php session_start(); ?>
 <?php
+// include_once(dirname(__DIR__).'/util/check_access_permission.php'); check_access_permission(basename($_SERVER['SCRIPT_FILENAME']));
 
-include_once(dirname(__DIR__).'/util/check_access_permission.php'); check_access_permission(basename($_SERVER['SCRIPT_FILENAME']));
 include('../navbar.php');
 require_once "connect.php";
 $query = "SELECT * FROM employee";
@@ -72,7 +72,7 @@ if (isset($_POST['delete_employee'])) {
                                 $job_query = "SELECT JNAME FROM jobposition WHERE JID = '$jid'";
                                 $job_result = mysqli_query($conn, $job_query);
                                 $job_row = mysqli_fetch_assoc($job_result);
-                                echo $job_row['JNAME'];
+                                echo $job_row['JNAME'] ?? "<i><b>NULL<b><i>";
                                 ?>
                             </td>
 
@@ -82,7 +82,7 @@ if (isset($_POST['delete_employee'])) {
                                 $depart_query = "SELECT DNAME FROM department WHERE DID = '$did'";
                                 $depart_result = mysqli_query($conn, $depart_query);
                                 $depart_row = mysqli_fetch_assoc($depart_result);
-                                echo $depart_row['DNAME'];
+                                echo $depart_row['DNAME'] ?? "<i><b>NULL<b><i>";
                                 ?>
                             </td>
                             <td><?php echo $row['USERNAME']; ?></td>
@@ -109,6 +109,5 @@ if (isset($_POST['delete_employee'])) {
     
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

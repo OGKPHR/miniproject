@@ -121,3 +121,15 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['submit_request'])) {
 </body>
 
 </html>
+
+
+
+add_jobposition x
+add permission x
+add skill x
+edit emp x
+list emp x
+job request boss 
+
+สร้าง Job position ใหม่ อนุญาติให้เข้าได้ทุก Permission
+Creat user อยู่แผนกอะไรก็ได้ อยู่ job อะไรก็ได้ แต่ต้องมีทุก permission
